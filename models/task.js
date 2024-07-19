@@ -23,10 +23,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    projectId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Projects',
+        key: 'id',
+      },
+    },
   }, {
     tableName: 'tasks',
     timestamps: true,
   });
+
+  Task.associate = (models) => {
+    Task.belongsTo(models.Project, {
+      foreignKey: 'projectId',
+      as: 'project',
+    });
+  };
 
   return Task;
 };
